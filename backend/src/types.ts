@@ -11,3 +11,12 @@ export interface SocialMediaPost {
   platform: Platform;
   content: string;
 }
+
+export interface ClientError {
+    message: string
+    code: string
+    details: {
+        field: string
+        message: string
+    }[]
+}

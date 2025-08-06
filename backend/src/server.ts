@@ -4,7 +4,7 @@ dotenv.config();
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { generateSocialMediaPosts } from './generate';
-import { Product } from './types';
+import { GenerateRequestSchema, formatZodErrors } from './validation';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -21,20 +21,13 @@ app.get('/health', (_req: Request, res: Response) => {
 // Generate social media posts
 app.post('/api/generate', async (req: Request, res: Response) => {
   try {
-    const product: Product = req.body.product;
+    const validationResult = GenerateRequestSchema.safeParse(req.body);
 
-    // Basic validation
-    if (!product || !product.name || !product.description) {
-      return res.status(400).json({
-        error: 'Missing required fields: name and description are required',
-      });
+    if (!validationResult.success) {
+      return res.status(422).json(formatZodErrors(validationResult.error));
     }
 
-    if (typeof product.price !== 'number' || product.price < 0) {
-      return res.status(400).json({
-        error: 'Invalid price: must be a positive number',
-      });
-    }
+    const { product } = validationResult.data;
 
     const posts = await generateSocialMediaPosts(product);
 

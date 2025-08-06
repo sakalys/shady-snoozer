@@ -116,16 +116,42 @@ That's it. Show us how you approach real-world code.
 
 ## Fixes and Improvements
 
-### [To be updated as fixes are implemented]
+### 1. Enhanced Input Validation with Zod (Completed)
 
-**Current Status**: Starting implementation phase
+**What was fixed:**
+- Replaced basic validation with comprehensive Zod schema validation
+- Added proper input sanitization (whitespace normalization, trimming)
+- Implemented detailed field-level error messages
+- Added strict type checking and data transformation
+- Added Prettier for consistent code formatting across the project
 
-**Planned Priority Fixes:**
+**Why Zod:**
+- Type-safe validation with TypeScript integration
+- Declarative schema definition
+- Automatic type inference
+- Better error messages for developers and users
+
+**Implementation Details:**
+```typescript
+// New validation schema in backend/src/validation.ts
+- String length validation (name: 2-100 chars, description: 10-1000 chars)
+- Price validation with rounding to 2 decimal places
+- Optional category field with 50 char limit
+- Automatic whitespace normalization
+- Detailed error responses with field paths
+```
+
+**Additional Improvements:**
+- Added Prettier for consistent code style and formatting
+- Updated HTTP status code to 422 for validation errors (more semantically correct)
+
+**Current Status**: Implementation phase ongoing
+
+**Remaining Priority Fixes:**
 1. **Prompt Engineering**: Improve OpenAI prompts for more consistent, structured responses
 2. **Error Handling**: Add comprehensive retry logic and better error messaging
 3. **Response Parsing**: Make parsing more robust with better fallback strategies
 4. **Configuration Integration**: Utilize existing platform config for validation
-5. **Input Validation**: Add character limit warnings and better edge case handling
 
 ## Feature Addition
 
