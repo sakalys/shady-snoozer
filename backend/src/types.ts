@@ -1,11 +1,11 @@
-export interface Product {
-  name: string;
-  description: string;
-  price: number;
-  category?: string;
-}
+import z from "zod";
+import { platformsSchema, productSchema } from "./validation";
 
-export type Platform = 'twitter' | 'instagram' | 'linkedin';
+export enum Platform {
+  X = 'x',
+  Instagram = 'instagram',
+  Linkedin = 'linkedin',
+}
 
 export interface SocialMediaPost {
   platform: Platform;
@@ -20,3 +20,9 @@ export interface ClientError {
         message: string
     }[]
 }
+
+export type PlatformRequest = { count: number };
+
+export type Product = z.infer<typeof productSchema>;
+export type Platforms = z.infer<typeof platformsSchema>;
+

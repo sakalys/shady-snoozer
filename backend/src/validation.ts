@@ -1,9 +1,8 @@
 import { z } from 'zod';
 import { config } from './config';
-import { ClientError } from './types';
+import { ClientError, Platform } from './types';
 
-// Define the product schema with comprehensive validation
-export const ProductSchema = z.object({
+export const productSchema = z.object({
   name: z
     .string()
     .min(2, 'Product name must be at least 2 characters')
@@ -33,14 +32,18 @@ export const ProductSchema = z.object({
     .optional(),
 });
 
-// Request body schema
-export const GenerateRequestSchema = z.object({
-  product: ProductSchema,
-});
+export const platformsSchema = z.record(
+  z.nativeEnum(Platform),
+  z.object({
+    count: z.number().gt(0),
+  }),
+);
 
-// Type inference from schema
-export type ValidatedProduct = z.infer<typeof ProductSchema>;
-export type GenerateRequest = z.infer<typeof GenerateRequestSchema>;
+// Request body schema
+export const requestBodySchema = z.object({
+  product: productSchema,
+  platforms: platformsSchema,
+});
 
 // Helper to format Zod errors for API response
 export function formatZodErrors(error: z.ZodError) {

@@ -155,7 +155,27 @@ That's it. Show us how you approach real-world code.
 
 ## Feature Addition
 
-### [To be updated when feature is selected and implemented]
+### 1. Platform Selection and Post Count Customization (In Progress)
+
+**What was added:**
+- Implemented UI elements in `frontend/src/app/page.tsx` to allow users to select specific social media platforms (X, Instagram, LinkedIn) for post generation.
+- Added input fields for each selected platform to specify the desired number of posts (`count`).
+- The frontend now sends the selected platforms and their respective counts to the backend API.
+
+**Why this feature:**
+- Provides users with greater control over the output, allowing them to tailor post generation to their specific needs for each platform.
+- Reduces unnecessary post generation for platforms they don't use, improving efficiency and potentially reducing API costs.
+- Demonstrates integration of frontend UI with backend request parameters.
+
+**Implementation Details:**
+```typescript
+// frontend/src/app/page.tsx
+- Added state for `platforms` (Record<Platform, { count: number }>) to manage selected platforms and counts.
+- Modified `handleGeneratePosts` to filter selected platforms and pass them to `generatePosts`.
+- Introduced checkboxes and number inputs for each platform, allowing users to enable/disable platforms and set post counts.
+```
+
+**Current Status**: UI implemented, backend integration and prompt engineering for this feature are next.
 
 **Feature Selection Process**: Evaluating options based on:
 - User value for small business owners
