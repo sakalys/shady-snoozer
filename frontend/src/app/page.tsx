@@ -33,9 +33,9 @@ export default function Home() {
   const [platforms, setPlatforms] = useState<
     Record<Platform, { count: number }>
   >({
-    x: { count: 1 },
-    instagram: { count: 1 },
-    linkedin: { count: 1 },
+    x: { count: 0 },
+    instagram: { count: 0 },
+    linkedin: { count: 0 },
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -103,6 +103,8 @@ export default function Home() {
                 type="text"
                 className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 shadow-sm"
                 value={product.name}
+                minLength={2}
+                maxLength={100}
                 onChange={(e) =>
                   setProduct({ ...product, name: e.target.value })
                 }
@@ -115,7 +117,7 @@ export default function Home() {
                 Description
               </label>
               <textarea
-                className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 shadow-sm resize-none"
+                className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 shadow-sm resize-vertical"
                 rows={4}
                 value={product.description}
                 onChange={(e) =>
@@ -193,7 +195,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="text-center mt-6">
+          <div className="text-center my-6">
             <button
               disabled={submitDisabled}
               className="px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-600 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100 shadow-lg hover:shadow-xl"
@@ -246,7 +248,7 @@ export default function Home() {
                   className="bg-gradient-to-r from-white/80 to-gray-50/80 backdrop-blur-sm p-6 rounded-xl border border-gray-200/50 hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
                 >
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-lg font-semibold">
+                    <div className="w-10 h-10 bg-gradient-to-r from-indigo-300 to-purple-400 rounded-full flex items-center justify-center text-white text-lg font-semibold">
                       {PLATFORM_ICONS[post.platform]}
                     </div>
                     <div className="flex-1">

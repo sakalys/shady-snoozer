@@ -57,16 +57,3 @@ export function formatZodErrors(error: z.ZodError) {
   } satisfies ClientError;
 }
 
-// Validate content length for specific platforms
-export function validatePlatformContent(
-  content: string,
-  platform: keyof typeof config.platforms,
-) {
-  const platformConfig = config.platforms[platform];
-  if (content.length > platformConfig.maxLength) {
-    throw new Error(
-      `Content exceeds ${platformConfig.name} character limit (${content.length}/${platformConfig.maxLength})`,
-    );
-  }
-  return true;
-}
