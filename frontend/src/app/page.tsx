@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import { generatePosts } from '../api';
-import { Platform } from '../types';
+import { Platform, SocialMediaPost } from '../types';
+import Post from './post';
+import { PLATFORM_ICONS } from '@/util';
 
 interface Product {
   name: string;
@@ -10,17 +12,6 @@ interface Product {
   price: number;
   category?: string;
 }
-
-interface SocialMediaPost {
-  platform: Platform;
-  content: string;
-}
-
-const PLATFORM_ICONS: Record<Platform, string> = {
-  x: '𝕏',
-  instagram: '📷',
-  linkedin: '💼',
-};
 
 export default function Home() {
   const [product, setProduct] = useState<Product>({
@@ -243,31 +234,7 @@ export default function Home() {
             </div>
             <div className="grid gap-6">
               {posts.map((post, index) => (
-                <div
-                  key={index}
-                  className="bg-gradient-to-r from-white/80 to-gray-50/80 backdrop-blur-sm p-6 rounded-xl border border-gray-200/50 hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-indigo-300 to-purple-400 rounded-full flex items-center justify-center text-white text-lg font-semibold">
-                      {PLATFORM_ICONS[post.platform]}
-                    </div>
-                    <div className="flex-1">
-                      <span className="font-semibold text-gray-800 capitalize">
-                        {post.platform}
-                      </span>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">
-                          {post.content.length} characters
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="bg-white/60 backdrop-blur-sm p-4 rounded-lg border border-gray-100">
-                    <p className="text-gray-800 whitespace-pre-wrap leading-relaxed">
-                      {post.content}
-                    </p>
-                  </div>
-                </div>
+                <Post key={index} post={post} />
               ))}
             </div>
           </div>
@@ -276,4 +243,3 @@ export default function Home() {
     </div>
   );
 }
-
