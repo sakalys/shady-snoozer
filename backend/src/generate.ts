@@ -3,10 +3,20 @@ import { callOpenAI } from './openai';
 import { Product, SocialMediaPost, Platform, Platforms } from './types';
 import { config } from './config';
 
-const zPostResponse = z.object({
-  platform: z.nativeEnum(Platform),
-  post: z.string(),
-});
+const zPostResponse = z.union([
+  z.object({
+    platform: z.literal(Platform.X),
+    post: z.string().max(config.platforms[Platform.X].maxLength),
+  }),
+  z.object({
+    platform: z.literal(Platform.Instagram),
+    post: z.string().max(config.platforms[Platform.Instagram].maxLength),
+  }),
+  z.object({
+    platform: z.literal(Platform.Linkedin),
+    post: z.string().max(config.platforms[Platform.Linkedin].maxLength),
+  }),
+]);
 
 const postsResponseSchema = z.object({
   array: z.array(zPostResponse),
