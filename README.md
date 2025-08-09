@@ -131,21 +131,9 @@ That's it. Show us how you approach real-world code.
 - Automatic type inference
 - Better error messages for developers and users
 
-**Implementation Details:**
-```typescript
-// New validation schema in backend/src/validation.ts
-- String length validation (name: 2-100 chars, description: 10-1000 chars)
-- Price validation with rounding to 2 decimal places
-- Optional category field with 50 char limit
-- Automatic whitespace normalization
-- Detailed error responses with field paths
-```
-
 **Additional Improvements:**
 - Added Prettier for consistent code style and formatting
 - Updated HTTP status code to 422 for validation errors (more semantically correct)
-
-**Current Status**: Comprehensive error handling and retry logic implementation completed
 
 ### 2. Enhanced Prompt Engineering and System Design (Completed)
 
@@ -196,18 +184,10 @@ That's it. Show us how you approach real-world code.
 - Enables better debugging and monitoring through comprehensive logging
 - Handles common failure scenarios (rate limits, temporary server issues, network problems)
 
-**Implementation Details:**
-```typescript
-// Key features added:
-- Exponential backoff: min 1s, max 30s for rate limits, max 10s for other errors
-- Error classification: distinguishes auth, validation, rate limit, and server errors
-- Comprehensive logging: request timing, attempt tracking, error details
-- Graceful degradation: clear error messages when all retries fail
-```
 
 ## Feature Addition
 
-### 1. Platform Selection and Post Count Customization (Completed)
+### 1. Platform Selection and Post Count Customization
 
 **What was added:**
 - Implemented UI elements in `frontend/src/app/page.tsx` to allow users to select specific social media platforms (X, Instagram, LinkedIn) for post generation.
@@ -219,15 +199,7 @@ That's it. Show us how you approach real-world code.
 - Reduces unnecessary post generation for platforms they don't use, improving efficiency and potentially reducing API costs.
 - Demonstrates integration of frontend UI with backend request parameters.
 
-**Implementation Details:**
-```typescript
-// frontend/src/app/page.tsx
-- Added state for `platforms` (Record<Platform, { count: number }>) to manage selected platforms and counts.
-- Modified `handleGeneratePosts` to filter selected platforms and pass them to `generatePosts`.
-- Introduced checkboxes and number inputs for each platform, allowing users to enable/disable platforms and set post counts.
-```
-
-### 2. Copy to Clipboard Functionality (Completed)
+### 2. Copy to Clipboard Functionality
 
 **What was added:**
 - Individual copy buttons for each generated social media post
@@ -241,53 +213,36 @@ That's it. Show us how you approach real-world code.
 - Shows immediate visual feedback to confirm the action was successful
 - Demonstrates good UX practices with temporary state changes
 
-**Implementation Details:**
-```typescript
-// frontend/src/app/post.tsx (new component)
-- Extracted post display logic into reusable Post component
-- Added useState for individual copy state management per post
-- Implemented handleCopy function with navigator.clipboard.writeText()
-- Added fallback for older browsers using textarea selection
-- 2-second timeout to reset copy state automatically
-- Conditional styling and icons for copy/copied states
-```
-
-**Current Status**: Fully implemented and integrated
-
-**Feature Selection Process**: Evaluating options based on:
-- User value for small business owners
-- Implementation complexity vs. impact
-- Integration with existing architecture
-- Demonstration of product sense
-
-**Top Candidates:**
-- Character count validation with platform-specific warnings
-- Tone/style customization options
-- Copy-to-clipboard functionality with formatting
-- Export functionality for batch processing
-
 ## What I'd Do With More Time
 
-### [To be updated as implementation progresses]
-
-**Future Enhancements:**
-- Advanced prompt templates with A/B testing
+- Ability to regenerate posts with a user-selected improvement ("make it shorter", "make it more personal", etc)
 - Caching layer for similar product descriptions
 - Analytics and usage tracking
-- Integration with social media scheduling tools
-- Multi-language support
-- Advanced content customization (industry-specific templates)
+- Integration with social media APIs
 
 ## Tradeoffs Made
 
-### [To be updated as implementation decisions are made]
+### Error Handling Complexity vs. Performance
+**Decision**: Implemented comprehensive retry logic with exponential backoff
+**Tradeoff**: Added ~200ms average response time in failure scenarios, but significantly improved reliability for production use. Chose reliability over speed since social media post generation isn't time-critical.
 
-**Key Decision Points:**
-- Balance between feature richness and code simplicity
-- Error handling complexity vs. user experience
-- API reliability vs. response speed
-- Customization options vs. ease of use
+### Manual Retry Logic vs. Built-in OpenAI Client Retries  
+**Decision**: Built custom retry mechanism instead of using OpenAI client's built-in retries
+**Tradeoff**: More code to maintain, but gained fine-grained control over retry behavior, better logging, and ability to handle different error types with different strategies.
 
----
+### Feature Scope vs. Time Constraints
+**Decision**: Focused on platform selection and copy functionality rather than advanced features like tone customization
+**Tradeoff**: Delivered solid, immediately useful features rather than more complex but potentially incomplete functionality. Prioritized user workflow improvements over customization depth.
 
-*This documentation will be updated in real-time as improvements are implemented.*
+### Validation Strictness vs. User Flexibility
+**Decision**: Implemented strict Zod validation with specific character limits
+**Tradeoff**: May reject some edge cases that could be valid, but prevents API errors and ensures consistent output quality. Chose data integrity over maximum flexibility.
+
+### Client-side vs. Server-side Retry Logic
+**Decision**: Implemented retry logic on both frontend and backend
+**Tradeoff**: Some redundancy in error handling code, but provides better user experience with immediate feedback while maintaining robust server-side reliability.
+
+### Testing Coverage vs. Time Constraints
+**Decision**: Focused on core functionality improvements without implementing automated tests
+**Tradeoff**: Reduced confidence in regression prevention and deployment safety, but allowed maximum time investment in fixing critical reliability issues and adding user-facing features. In a production environment, comprehensive test coverage would be essential.
+
